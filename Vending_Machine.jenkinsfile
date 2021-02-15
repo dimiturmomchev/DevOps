@@ -1,0 +1,165 @@
+import com.sun.jdi.BooleanValue
+import org.jdom.Content
+
+
+pipeline {
+
+    agent any
+
+
+    parameters {
+
+        string(name: 'Vending_Machine', defaultValue: 'Machine ', description: 'Would you like a drink?')
+
+        text(name: 'Drink', defaultValue: '', description: 'Enter some information about drink you want.')
+
+        choice(name: 'CHOICE', choices: ['Heineken', 'Corona', 'Guiness'], description: 'Pick something')
+
+    }
+    environment {
+        BuildName1 = "Heineken"
+        BuildName2 = "Corona"
+        BuildName3 = "Guiness"
+
+        BuildWorkspace = "${WORKSPACE}/build"
+
+        email_integrators = "dimiturmomchev@gmail.com"
+
+    }
+    stages {
+
+        stage('Fetch') {
+
+            environment {
+                WORKSPACE = "${BuildWorkspace}"
+            }
+
+            steps {
+
+                dir("${BuildWorkspace}") {
+
+                    script {
+
+                        writeFile file: 'pipelineBuildnumber',
+                                text: 'Currnet build number is: ${currentBuild.number}'
+
+                        echo "Hello from $env.STAGE_NAME"
+
+                        echo "current build number: ${currentBuild.number}"
+                    }
+                }
+
+
+            }
+
+        }
+
+        stage('PreIntegration') {
+            steps {
+                echo "Hello from PreIntegration step "
+                echo "Environment Path: ${env:path}"
+            }
+
+        }
+        stage('Build') {
+            parallel {
+
+
+                stage('Build-Stage-1 Heineken') {
+
+                    steps {
+
+                        dir("${BuildWorkspace}") {
+
+                            script {
+
+                                writeFile file: 'pipelineBuild $env.STAGE_NAME.txt',
+                                        text: 'Currnet build is: $env.STAGE_NAME \n Currnet build pipelineNumber: ${currentBuild.number}'
+
+                                echo env.STAGE_NAME
+
+                                echo "Hello from ${currentBuild.number}"
+                            }
+                        }
+
+
+                    }
+                }
+                stage('Build-Stage-2 Corona') {
+
+                    steps {
+
+                        dir("${BuildWorkspace}") {
+
+                            script {
+
+                                writeFile file: 'pipelineBuild $env.STAGE_NAME.txt',
+                                        text: 'Currnet build is: $env.STAGE_NAME \n Currnet build pipelineNumber: ${currentBuild.number}'
+
+                                echo env.STAGE_NAME
+
+                                echo "Hello from ${currentBuild.number}"
+                            }
+                        }
+
+
+                    }
+                }
+                stage('Build-Stage-3 Guiness') {
+
+                    steps {
+
+                        dir("${BuildWorkspace}") {
+
+                            script {
+
+                                writeFile file: 'pipelineBuild $env.STAGE_NAME.txt',
+                                        text: 'Currnet build is: $env.STAGE_NAME \n Currnet build pipelineNumber: ${currentBuild.number}'
+
+                                echo env.STAGE_NAME
+
+                                echo "Hello from ${currentBuild.number}"
+
+                                env.TRIGGER_NEXT = true
+                            }
+                        }
+
+
+                    }
+                }
+
+
+            }
+        }
+        stage('Test') {
+
+            when {
+                expression {
+                    env.TRIGGER_NEXT.toBoolean() == true
+                }
+            }
+            steps {
+                echo "all test cases passed successfully"
+            }
+        }
+        stage('Deploy') {
+            steps {
+                echo "The code has been deployed"
+            }
+
+
+        }
+//      
+
+    }
+    post {
+        success {
+            script {
+                emailext body: 'Successfull build --  Body text', subject: 'Successfull build', to: 'dimiturmomchev@gmail.com'
+            }
+        }
+    }
+
+
+
+}
