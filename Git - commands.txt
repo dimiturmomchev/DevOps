@@ -1,0 +1,46 @@
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	
+	
+	|git clone https://eu.git.visteon.com/URL/URL/URL.git|  			- downloads/clone  
+	
+	|git branch Dmomchev|								- creates Branch Dmomchev
+	
+	|git branch|									- check existing branches
+	
+	|git checkout Dmomchev|							 	- switch to branch Dmomchev
+	
+	|git checkout -b Dmomchev| 							- makes Branch Dmomchev and switch/enter into the Branch Dmomchev
+	
+	|git pull origin fmaster|							- pulls from fmaster branch
+
+      2x|git pull origin fmaster|							- if you run this command TWICE you can check if your branch is up to date with your !! BRANCH WHICH YOU ARE IN IT !!!
+	
+	|git add .|  							 		- add changes to your locan branch directory 
+	
+	|git status|							 		- check for branch status
+	
+	|git commit -m "commit text"| 							- make commit with Text Description Information
+	
+	|git push| 									- pushing all changes with commit info to THE !SPECIFIC! !BRANCH! WHICH YOU ARE IN !!!
+	
+	|git push origin Dmomchev| 							- pushing all changes with commit Specificly to the Dmomchev branch !!!
+	
+	|git push -u "https://eu.git.visteon.com/URL/URL/URL.git" Dmomchev| 		- pushing all changes with commit Specificly to the Dmomchev branch !!! - you need to provide specific URL location 
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+	|git revert 4466e04|								- revert all changes to commit "4466e04"
+
+	|git checkout file.jenkinslife|							- revert last commit to this file
+
+	|git log|									- checks out log status
+	
+	|git reflog|									- checks out steps log status commands
+
+	|git commit --amend -m "commit Text"|						- Rename the commit MESSAGE
+
+	|git add .nameoffile|								- add specific FILE
+
+	|git reset --hard 4466e04|							- reverts all Tracked file's to the state they were. And leaves any UnTracked files alone.
